@@ -1,12 +1,19 @@
 package org.elasticsearch.index.analysis;
 
-import org.apache.lucene.analysis.BaseTokenStreamTestCase;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharFilter;
-import org.apache.lucene.analysis.MockTokenizer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.core.WhitespaceTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.tests.analysis.BaseTokenStreamTestCase;
+import org.apache.lucene.tests.analysis.MockTokenizer;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UnicodeNormalizationCharFilterTests extends BaseTokenStreamTestCase {
     public void testSimpleNFKC() throws IOException {

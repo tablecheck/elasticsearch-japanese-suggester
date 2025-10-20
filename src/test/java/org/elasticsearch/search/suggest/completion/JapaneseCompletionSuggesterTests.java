@@ -1,7 +1,7 @@
 package org.elasticsearch.search.suggest.completion;
 
-import org.apache.lucene.util.LuceneTestCase;
-import org.elasticsearch.action.index.IndexResponse;
+import org.apache.lucene.tests.util.LuceneTestCase;
+import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.plugin.JapaneseSuggesterPlugin;
@@ -26,11 +26,6 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
 
     @Override
     protected Collection<Class<? extends Plugin>> nodePlugins() {
-        return Arrays.asList(JapaneseSuggesterPlugin.class);
-    }
-
-    @Override
-    protected Collection<Class<? extends Plugin>> transportClientPlugins() {
         return Arrays.asList(JapaneseSuggesterPlugin.class);
     }
 
@@ -100,7 +95,7 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
 
     public void createTestIndex(String index, String type, String completionField) throws IOException {
         client().admin().indices().prepareCreate(index)
-                .addMapping(type, jsonBuilder()
+                .setMapping(jsonBuilder()
                             .startObject()
                                 .startObject("properties")
                                     .startObject(completionField)
@@ -118,7 +113,7 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
     }
 
     private void feedDocument(String index, String type, String completionField, String value, int weight) throws IOException {
-        IndexResponse a = client().prepareIndex(index, type)
+        DocWriteResponse a = client().prepareIndex(index)
                 .setSource(
                         jsonBuilder()
                                 .startObject()

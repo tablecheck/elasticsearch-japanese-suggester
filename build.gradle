@@ -39,20 +39,24 @@ dependencies {
     compileOnly "org.elasticsearch:elasticsearch:9.1.4"
     compileOnly "org.elasticsearch:elasticsearch-x-content:9.1.4"
     compileOnly "org.elasticsearch.plugin:elasticsearch-plugin-api:9.1.4"
-    compileOnly "org.apache.lucene:lucene-analysis-kuromoji:9.11.0"
+    compileOnly "org.apache.lucene:lucene-analysis-kuromoji:10.2.2"
     compileOnly "com.fasterxml.jackson.core:jackson-core:2.17.0"
 
     testImplementation "org.elasticsearch:elasticsearch:9.1.4"
     testImplementation "org.elasticsearch:elasticsearch-x-content:9.1.4"
-    testImplementation "org.apache.lucene:lucene-core:9.11.0"
-    testImplementation "org.apache.lucene:lucene-analysis-common:9.11.0"
-    testImplementation "org.apache.lucene:lucene-analysis-kuromoji:9.11.0"
-    testImplementation "org.apache.lucene:lucene-test-framework:9.11.0"
+    testImplementation "org.apache.lucene:lucene-analysis-kuromoji:10.2.2"
+    testImplementation "org.apache.lucene:lucene-test-framework:10.2.2"
     testImplementation "org.elasticsearch.test:framework:9.1.4"
     testImplementation "org.elasticsearch.test:yaml-rest-runner:9.1.4"
-    testImplementation "junit:junit:4.13.2"
 }
 
+// Force use of Hamcrest 3.0 and exclude the old hamcrest-core to avoid conflicts
+configurations.testRuntimeClasspath {
+    resolutionStrategy {
+        force 'org.hamcrest:hamcrest:3.0'
+    }
+    exclude group: 'org.hamcrest', module: 'hamcrest-core'
+}
 
 sourceCompatibility = 21
 targetCompatibility = 21
