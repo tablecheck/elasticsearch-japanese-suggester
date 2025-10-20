@@ -13,7 +13,7 @@ import org.apache.lucene.search.suggest.document.TopSuggestDocs;
 import org.apache.lucene.search.suggest.document.TopSuggestDocsCollector;
 import org.apache.lucene.util.CharsRefBuilder;
 import org.apache.lucene.util.PriorityQueue;
-import org.elasticsearch.common.text.Text;
+import org.elasticsearch.xcontent.Text;
 import org.elasticsearch.index.mapper.CompletionFieldMapper;
 import org.elasticsearch.search.suggest.Suggest;
 import org.elasticsearch.search.suggest.Suggest.Suggestion;
@@ -100,13 +100,13 @@ public class JapaneseCompletionSuggester extends Suggester<JapaneseCompletionSug
     }
 
     private static void suggest(IndexSearcher searcher, CompletionQuery query, TopSuggestDocsCollector collector) throws IOException {
-        query = (CompletionQuery) query.rewrite(searcher.getIndexReader());
+        query = (CompletionQuery) query.rewrite(searcher);
         Weight weight = query.createWeight(searcher, collector.scoreMode(),1);
         for (LeafReaderContext context : searcher.getIndexReader().leaves()) {
             BulkScorer scorer = weight.bulkScorer(context);
             if (scorer != null) {
                 try {
-                    scorer.score(collector.getLeafCollector(context), context.reader().getLiveDocs());
+                    scorer.score(collector.getLeafCollector(context), context.reader().getLiveDocs(), 0, context.reader().maxDoc());
                 } catch (CollectionTerminatedException e) {
                     // collection was terminated prematurely
                     // continue with the following leaf

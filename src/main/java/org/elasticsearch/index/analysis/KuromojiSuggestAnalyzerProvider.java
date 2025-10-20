@@ -11,7 +11,7 @@ public class KuromojiSuggestAnalyzerProvider extends AbstractIndexAnalyzerProvid
     private final KuromojiSuggestAnalyzer analyzer;
 
     public KuromojiSuggestAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, name, settings);
+        super(name);
 
         switch (name) {
             case INDEX_ANALYZER:

@@ -13,7 +13,7 @@ public class UnicodeNormalizationCharFilterFactory extends AbstractCharFilterFac
     private final boolean lowerCase;
 
     public UnicodeNormalizationCharFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, name);
+        super(name);
         this.form = Normalizer.Form.valueOf(settings.get("form", "NFKC").toUpperCase(Locale.getDefault()));
         this.lowerCase = settings.getAsBoolean("lower_case", true);
     }

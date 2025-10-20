@@ -2,6 +2,7 @@ package org.elasticsearch.index.analysis;
 
 import com.carrotsearch.randomizedtesting.annotations.Name;
 import com.carrotsearch.randomizedtesting.annotations.ParametersFactory;
+import org.elasticsearch.test.rest.ESRestTestCase;
 import org.elasticsearch.test.rest.yaml.ClientYamlTestCandidate;
 import org.elasticsearch.test.rest.yaml.ESClientYamlSuiteTestCase;
 
@@ -14,7 +15,6 @@ public class KuromojiSuggestAnalysisRestIT extends ESClientYamlSuiteTestCase {
 
     public KuromojiSuggestAnalysisRestIT(@Name("yaml") ClientYamlTestCandidate testCandidate) {
         super(testCandidate);
-        
     }
 
     @ParametersFactory
