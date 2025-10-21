@@ -144,6 +144,7 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
         Suggest.Suggestion.Entry<Suggest.Suggestion.Entry.Option> entry = suggestion.getEntries().get(0);
         expected = expected == null ? new String[0] : expected;
         Assert.assertThat(extractText(entry), equalTo(Arrays.asList(expected)));
+        response.decRef();
     }
 
     private List<String> extractText(Suggest.Suggestion.Entry<Suggest.Suggestion.Entry.Option> entry) {
