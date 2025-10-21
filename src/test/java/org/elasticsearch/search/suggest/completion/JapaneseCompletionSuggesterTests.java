@@ -1,7 +1,6 @@
 package org.elasticsearch.search.suggest.completion;
 
 import org.apache.lucene.tests.util.LuceneTestCase;
-import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.plugin.JapaneseSuggesterPlugin;
@@ -9,7 +8,7 @@ import org.elasticsearch.plugins.Plugin;
 import org.elasticsearch.search.suggest.Suggest;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.test.ESIntegTestCase;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -113,7 +112,7 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
     }
 
     private void feedDocument(String index, String type, String completionField, String value, int weight) throws IOException {
-        DocWriteResponse a = client().prepareIndex(index)
+        client().prepareIndex(index)
                 .setSource(
                         jsonBuilder()
                                 .startObject()
@@ -135,15 +134,15 @@ public class JapaneseCompletionSuggesterTests extends ESIntegTestCase {
                 .suggest(new SuggestBuilder().addSuggestion("suggestion", prefix))
                 .execute().actionGet();
 
-        Assert.assertThat(response.getSuggest().size(), is(1));
+        MatcherAssert.assertThat(response.getSuggest().size(), is(1));
         Suggest suggest = response.getSuggest();
 
         Suggest.Suggestion<Suggest.Suggestion.Entry<Suggest.Suggestion.Entry.Option>> suggestion = suggest.getSuggestion("suggestion");
-        Assert.assertThat(suggestion.getEntries().size(), is(1));
+        MatcherAssert.assertThat(suggestion.getEntries().size(), is(1));
 
         Suggest.Suggestion.Entry<Suggest.Suggestion.Entry.Option> entry = suggestion.getEntries().get(0);
         expected = expected == null ? new String[0] : expected;
-        Assert.assertThat(extractText(entry), equalTo(Arrays.asList(expected)));
+        MatcherAssert.assertThat(extractText(entry), equalTo(Arrays.asList(expected)));
         response.decRef();
     }
 
