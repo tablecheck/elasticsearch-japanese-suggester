@@ -1,50 +1,33 @@
-buildscript {
-  repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-  }
-
-  dependencies {
-    classpath "org.elasticsearch.gradle:build-tools:7.13.1"
-  }
+plugins {
+    id 'java'
 }
 
 repositories {
-  mavenLocal()
+    mavenLocal()
+    mavenCentral()
 }
 
 group = 'org.elasticsearch.plugin'
 version = "7.13.1"
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'elasticsearch.esplugin'
-apply plugin: 'elasticsearch.yaml-rest-test'
+sourceCompatibility = 11
+targetCompatibility = 11
 
-ext {
-  licenseFile = rootProject.file('NOTICE.txt')
-  noticeFile = rootProject.file('NOTICE.txt')
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
-esplugin {
-    name 'elasticsearch-japanese-suggester'
-    description 'Suggester for Japanese'
-    classname 'org.elasticsearch.plugin.JapaneseSuggesterPlugin'
-    licenseFile rootProject.file('APACHE-LICENSE-2.0.txt')
-    noticeFile rootProject.file('NOTICE.txt')
-}
-
-// In this section you declare the dependencies for your production and test code
-// Note, the two dependencies are not really needed as the buildscript dependency gets them in already
-// they are just here as an example
 dependencies {
     implementation "org.elasticsearch:elasticsearch:7.13.1"
+    implementation "org.apache.lucene:lucene-analyzers-kuromoji:8.8.2"
 
-    implementation "org.apache.lucene:lucene-analyzers-kuromoji:${versions.lucene}"
+    testImplementation("org.elasticsearch.test:framework:7.13.1") {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation("junit:junit:4.13.2") {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "org.apache.logging.log4j:log4j-api:2.17.1"
+    testImplementation "org.apache.logging.log4j:log4j-core:2.17.1"
 }
-
-
-sourceCompatibility = 15
-targetCompatibility = 15
-validateElasticPom.enabled = false
