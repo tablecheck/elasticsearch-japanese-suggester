@@ -34,7 +34,6 @@ esplugin {
     classname 'org.elasticsearch.plugin.JapaneseSuggesterPlugin'
 }
 
-// In this section you declare the dependencies for your production and test code
 dependencies {
     compileOnly "org.elasticsearch:elasticsearch:9.1.4"
     compileOnly "org.elasticsearch:elasticsearch-x-content:9.1.4"
@@ -60,3 +59,11 @@ configurations.testRuntimeClasspath {
 
 sourceCompatibility = 21
 targetCompatibility = 21
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
+tasks.withType(Test) {
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+}
