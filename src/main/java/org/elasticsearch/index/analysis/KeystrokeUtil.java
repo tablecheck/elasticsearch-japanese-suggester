@@ -62,7 +62,7 @@ public class KeystrokeUtil {
             parser.nextToken(); // Skip JsonToken.START_OBJECT
 
             while (parser.nextToken() != JsonToken.END_OBJECT) {
-                String key = parser.getCurrentName();
+                String key = parser.currentName();
                 parser.nextToken(); // Skip JsonToken.START_ARRAY
 
                 // read array of keystrokes
