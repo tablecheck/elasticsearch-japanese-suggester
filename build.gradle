@@ -66,4 +66,10 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Test) {
     jvmArgs '--enable-native-access=ALL-UNNAMED'
+
+    // Set LD_LIBRARY_PATH so JNI can find the zstd library
+    environment 'LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu'
+
+    // Configure embedded test cluster for REST integration tests
+    systemProperty 'tests.rest.load_packaged', 'false'
 }
